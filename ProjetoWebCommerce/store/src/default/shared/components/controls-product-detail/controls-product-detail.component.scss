@@ -1,0 +1,64 @@
+.prod-icon {
+    display: inline-block;
+    .cart-lk {
+      position: absolute;
+      right: 0;
+      margin-right: 14px;
+  
+      a {
+        border-radius: 5px;
+        border: solid 2px #027600;
+        padding: 5px 10px;
+        font-size: 12px;
+        font-weight: 500;
+        color: #027600;
+        text-decoration: none;
+        display: inline-block;
+        &:hover {
+          background: #027600;
+          color: white;
+        }
+      }
+      &.bc-lk {
+        a {
+          font-size: 20px;
+          padding: 10px 20px;
+        }
+      }
+    }
+  }
+  
+  .auth{
+    white-space: nowrap;
+    padding: 7px 14px;
+    font-weight: 500;
+  }
+  .forgot{
+    cursor: pointer;
+  }
+  .validationcolor{
+  
+    ::ng-deep .mat-form-field-underline, ::ng-deep .mat-form-field-ripple {
+      background-color: red !important;
+      color: red !important;
+    }
+    ::ng-deep .mat-form-field-empty.mat-form-field-label {
+      color: red !important;
+    }
+    ::ng-deep .mat-form-field-label >  .mat-form-field-required-marker {
+      color: red  !important;
+    }
+  
+  }
+  ::ng-deep .mat-form-field-underline, ::ng-deep .mat-form-field-ripple {
+    background-color: gray !important;
+    color: gray !important;
+  }
+  ::ng-deep .mat-form-field-empty.mat-form-field-label {
+    color: gray !important;
+  }
+  ::ng-deep .mat-form-field-label >  .mat-form-field-required-marker {
+    color: gray  !important;
+  }
+
+  .img { display: block; width: 50%px; height: 85px; border-radius: 0%;cursor: pointer; }

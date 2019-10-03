@@ -1,0 +1,231 @@
+<mat-card fxLayout="row wrap" fxLayoutAlign="space-between">
+    <div fxFlex="100" fxFlex.gt-sm="50" class="p-2 billing-address">
+        <h2 class="text-dark">Confirmação dos Dados</h2>
+        <form [formGroup]="checkoutForm" novalidate>
+            <div class="w-100">
+                <mat-form-field fxFlex="100%">
+                    <input matInput placeholder="Identificação" formControlName="firstName" readonly>
+                </mat-form-field>
+            </div>
+
+            <div class="w-100">
+                <mat-form-field fxFlex="100%">
+                    <input matInput placeholder="Email principal" formControlName="email" readonly>
+                </mat-form-field>
+            </div>
+
+            <div class="w-100">
+                <mat-form-field fxFlex="48%" class="mr-1">
+                    <input matInput placeholder="Telefone" formControlName="phone" readonly>
+                </mat-form-field>
+                <mat-form-field fxFlex="49%">
+                    <input matInput placeholder="Mobile" formControlName="mobile" readonly>
+                </mat-form-field>
+            </div>
+
+            <div class="w-100">
+
+            </div>
+
+            <ng-container>
+                <div class="newaddress">
+                    <div class="w-100">
+                        <mat-form-field fxFlex="100%">
+                            <input matInput placeholder="Endereço" formControlName="address" readonly>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="w-100">
+                        <mat-form-field fxFlex="48%" class="mr-1">
+                            <input matInput placeholder="Número" formControlName="addressLine" readonly>
+                        </mat-form-field>
+
+                        <mat-form-field fxFlex="49%">
+                            <input matInput placeholder="CEP" formControlName="zip" readonly>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="w-100">
+                        <mat-form-field fxFlex="100%">
+                            <input matInput placeholder="Cidade" formControlName="city" readonly>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="w-100">
+                        <mat-form-field fxFlex="100%">
+                            <input matInput placeholder="Contato" formControlName="contato" readonly>
+                        </mat-form-field>
+                    </div>
+                    <div class="w-100">
+                        <mat-form-field fxFlex="48%" class="mr-1" style="display:none">
+                            <input matInput placeholder="Estado" formControlName="state" readonly>
+                        </mat-form-field>
+
+                        <mat-form-field fxFlex="49%" style="display:none">
+                            <mat-select placeholder="País" formControlName="country" id="country">
+                                <mat-option *ngFor="let list of listsSandbox.countryList$ | async"
+                                    [value]="list.countryId">
+                                    {{list.name}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </ng-container>
+        </form>
+
+    </div>
+    <!---->
+    <div fxFlex="100" fxFlex.gt-sm="50" class="p-2" ngClass.sm="mt-2" ngClass.xs="mt-2" ngClass="billing-address">
+        <h2>Finalizar Compra</h2>
+        <div class="item-table">
+            <div *ngIf="(productControlSandbox.cartlistCount$ | async) > 0">
+                <div *ngFor="let products of productControlSandbox.cartlist$ | async; let i = index">
+                    <mat-card>
+                        <mat-card-header>
+                            <div mat-card-avatar class="example-header-image" fxFlexAlign="center">
+                                <img mat-card-image *ngIf="products.image"
+                                    [src]="imagePath + '?width=60&height=60&path=' + products.image.containerName + '&name=' + products.image.image">
+                                <img mat-card-image *ngIf="products.Images"
+                                    [src]="imagePath + '?width=60&height=60&path=' + products['Images'].containerName + '&name=' + products['Images'].image">
+                                <div mat-card-image *ngIf="products.productImage ">
+                                    <div *ngFor='let prodectDetailsImage of products.productImage'>
+                                        <img *ngIf="prodectDetailsImage.defaultImage === 1"
+                                            [src]="imagePath + '?width=60&height=60&path=' + prodectDetailsImage.containerName + '&name=' + prodectDetailsImage.image">
+                                    </div>
+                                </div>
+                            </div>
+                            <mat-card-title>Confirmação de Serviço</mat-card-title>
+                            <mat-card-subtitle>Descrição</mat-card-subtitle>
+
+                        </mat-card-header>
+                        <mat-card-content>
+                            <div class="w-100" fxFlex="100">
+                                <mat-list>
+                                    <mat-list-item>
+                                        <mat-icon mat-list-icon>keyboard_arrow_right</mat-icon>
+                                        <h4 mat-line>Serviço</h4>
+                                        <p mat-line> {{products.name}} </p>
+                                    </mat-list-item>
+
+                                    <mat-list-item>
+                                        <mat-icon mat-list-icon>keyboard_arrow_right</mat-icon>
+                                        <h4 mat-line>Título</h4>
+                                        <p mat-line> {{products.titulo}} </p>
+                                    </mat-list-item>
+
+                                    <mat-list-item>
+                                        <mat-icon mat-list-icon>keyboard_arrow_right</mat-icon>
+                                        <h4 mat-line>Quantidade</h4>
+                                        <p mat-line> {{products.productCount}} </p>
+                                    </mat-list-item>
+
+                                    <mat-list-item>
+                                        <mat-icon mat-list-icon>keyboard_arrow_right</mat-icon>
+                                        <h4 mat-line>Tamanho</h4>
+                                        <p mat-line> {{products.tamanho}} </p>
+                                    </mat-list-item>
+
+                                    <mat-list-item>
+                                        <mat-icon mat-list-icon>keyboard_arrow_right</mat-icon>
+                                        <h4 mat-line>Mídia</h4>
+                                        <p mat-line> {{products.midia}} </p>
+                                    </mat-list-item>
+
+                                    <mat-list-item *ngIf="frente_versoView">
+                                        <mat-icon mat-list-icon>keyboard_arrow_right</mat-icon>
+                                        <h4 mat-line>Frente Verso</h4>
+                                        <p mat-line> {{products.frente_verso}} </p>
+                                    </mat-list-item>
+
+                                    <mat-list-item *ngIf="superA3View">
+                                        <mat-icon mat-list-icon>keyboard_arrow_right</mat-icon>
+                                        <h4 mat-line>Super A3</h4>
+                                        <p mat-line> {{products.super_a3}} </p>
+                                    </mat-list-item>
+
+                                    <mat-list-item>
+                                        <mat-icon mat-list-icon>keyboard_arrow_right</mat-icon>
+                                        <h4 mat-line>Fechamento Arquivo</h4>
+                                        <p mat-line> {{products.fecham_arquivo}} </p>
+                                    </mat-list-item>
+
+                                    <mat-list-item *ngIf="ajusteCorView">
+                                        <mat-icon mat-list-icon>keyboard_arrow_right</mat-icon>
+                                        <h4 mat-line>Ajuste de Cor</h4>
+                                        <p mat-line> {{products.ajuste_cor}} </p>
+                                    </mat-list-item>
+
+                                    <mat-list-item>
+                                        <mat-icon mat-list-icon>keyboard_arrow_right</mat-icon>
+                                        <h4 mat-line>Nome Arquivo Enviado</h4>
+                                        <p mat-line> {{products.nome_arquivo}} </p>
+                                    </mat-list-item>
+
+                                    <mat-list-item>
+                                        <mat-icon mat-list-icon>keyboard_arrow_right</mat-icon>
+                                        <h4 mat-line>Entrega</h4>
+                                        <p mat-line> {{products.tipo_entrega}} </p>
+                                    </mat-list-item>
+
+                                    <mat-list-item>
+                                        <mat-icon mat-list-icon>keyboard_arrow_right</mat-icon>
+                                        <h4 mat-line>Pagamento</h4>
+                                        <p mat-line> {{products.tipo_pagto}} </p>
+                                    </mat-list-item>
+
+                                    <!-- <mat-list-item>
+                                        <mat-icon mat-list-icon>keyboard_arrow_right</mat-icon>
+                                        <h4 mat-line>Preço Unit</h4>
+                                        <p mat-line> {{products.price}} </p>
+                                    </mat-list-item> -->
+
+                                </mat-list>
+
+                            </div>
+
+                        </mat-card-content>
+                        <mat-card-actions>
+                            <div fxLayout="row">
+                                <div fxFlex="100" fxLayoutAlign="center center">
+                                    <h2>Valor Total R$</h2>
+                                </div>
+                            </div>
+
+                            <div fxLayout="row" fxLayoutAlign="center center">
+                                <div class="text-right" *ngIf="productControlSandbox.totalCartPrice$">
+                                    <!-- <h1>{{(productControlSandbox.totalCartPrice$ | async) | currency:'BRL':'symbol'}}
+                                    </h1> -->
+                                    <h1>{{products.total}}
+                                    </h1>
+                                </div>
+                            </div>
+
+                            <div fxLayout="row" fxLayoutAlign="center center">
+                                <div fxFlex="40%" class="p-1">
+                                    <a class="proceed-chk" mat-raised-button color="warn" (click)="clear()">Cancelar</a>
+                                </div>
+                                <div fxFlex="60%" class="p-1">
+                                    <a *ngIf="productControlSandbox.cartlist$ | async as productDetails"
+                                        (click)="placeOrder(productDetails)" mat-raised-button color="primary"
+                                        class="proceed-chk">
+                                        <i *ngIf="productControlSandbox.checkoutLoading$ | async"
+                                            class="fa fa-spinner fa-spin" style="font-size:24px"></i>
+                                        <img *ngIf="!(productControlSandbox.checkoutLoading$ | async)"
+                                            src="assets/images/others/checkout.png">{{'checkout.PlaceOrder'|translate}}
+                                    </a>
+                                </div>
+                            </div>
+                        </mat-card-actions>
+
+                    </mat-card>
+
+                </div>
+            </div>
+
+
+
+        </div>
+
+    </div>
+</mat-card>

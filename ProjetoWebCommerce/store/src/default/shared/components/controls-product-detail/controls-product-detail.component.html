@@ -1,0 +1,167 @@
+<div fxLayout="row" fxLayout.xs="column" [fxLayoutAlign]="align" class="text-muted">
+    <div *ngIf="type==='detail'" class="w-100">
+        <div [formGroup]="produto" novalidate class="w-100">
+            <div class="py-1 w-100">
+                <div class="w-100">
+                    <h2>Solicitação de Serviço</h2>
+                    <div class="divider mt-1"></div>
+                </div>
+                <div class="w-100 mt-2">
+                    <mat-form-field class="w-100">
+                        <input matInput placeholder="Cliente" formControlName="edtCliente">
+                    </mat-form-field>
+                </div>
+
+                <div class="w-100">
+                    <mat-form-field class="w-100"
+                        [ngClass]="{validationcolor:produto.controls.edtTitulo.hasError('required') && submitted }">
+                        <input matInput placeholder="Título" formControlName="edtTitulo" required>
+                        <mat-error *ngIf="produto.controls['edtTitulo'].hasError('required') && submitted">
+                            Título Requerido
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="w-100">
+                    <div fxLayout="row" fxFlex>
+                        <div fxLayout="row" fxFlex="100">
+                            <div fxFlex="50%" fxLayoutAlign="space-evenly center">
+                                <span id="idQualquer">Qtd.(Un)</span>
+                                <button mat-icon-button matTooltip="Menos" (click)="changeCount('remove')">
+                                    <mat-icon>remove</mat-icon>
+                                </button>
+                                <span> {{quantity}} </span>
+                                <button mat-icon-button matTooltip="Mais" (click)="changeCount('add')">
+                                    <mat-icon>add</mat-icon>
+                                </button>
+
+                            </div>
+                            <div fxFlex="50%">
+                                <mat-form-field fxFlex="100">
+                                    <input matInput placeholder="Tamanho" formControlName="tamanho">
+                                </mat-form-field>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="w-100 mt-2">
+                    <h2>Mídia</h2>
+                    <div class="divider mt-1"></div>
+                </div>
+
+                <div class="w-100 mt-2">
+                    <div fxLayout="row" fxFlex>
+                        <mat-form-field fxFlex="50%"
+                            [ngClass]="{validationcolor:produto.controls.midia.hasError('required') && submitted }">
+                            <mat-select placeholder="Mídia" formControlName="midia" required>
+                                <mat-option *ngFor="let _midia of _midiaList" [value]="_midia">{{ _midia }}</mat-option>
+                                <!-- <mat-option value="Adesivo Brilho">Adesivo Brilho</mat-option>
+                                <mat-option value="Adesivo Fosco">Adesivo Fosco</mat-option> -->
+                            </mat-select>
+                            <mat-error *ngIf="produto.controls['midia'].hasError('required')&&submitted">
+                                Mídia Requerida
+                            </mat-error>
+                        </mat-form-field>
+                        <mat-checkbox fxFlex="50%" fxLayoutAlign="center center" formControlName="frente_verso"
+                            (click)="onClickCheckBox('frente_verso_click')" [(ngModel)]="frente_versoChecked"
+                            *ngIf="frente_versoView">Frente
+                            Verso</mat-checkbox>
+                    </div>
+                </div>
+
+                <div class="w-100 mt-2">
+                    <h2>Acabamento</h2>
+                    <div class="divider mt-1"></div>
+                </div>
+
+                <div class="w-100 mt-2">
+                    <div fxLayout="row" fxFlex fxLayoutAlign="space-evenly center">
+                        <mat-checkbox formControlName="fecham_arquivo" [(ngModel)]="fecham_arquivoChecked"
+                            (click)="onClickCheckBox('fecham_arquivo_click')">Fecham. Arquivo</mat-checkbox>
+                        <mat-checkbox formControlName="super_a3" [(ngModel)]="super_a3Checked"
+                            (click)="onClickCheckBox('super_a3_click')" *ngIf="super_a3View">Super A3</mat-checkbox>
+                        <mat-checkbox formControlName="ajuste_cor" [(ngModel)]="ajuste_corChecked"
+                            (click)="onClickCheckBox('ajuste_cor_click')" *ngIf="ajuste_corView">Ajuste Cor
+                        </mat-checkbox>
+                    </div>
+                </div>
+
+                <div class="w-100 mt-2">
+                    <h2>Arquivo</h2>
+                    <div class="divider mt-1"></div>
+                </div>
+
+                <div class="w-100 mt-2">
+                    <div class="custom-file" fxLayout="row" fxFlex="100%">
+                        <input fxFlex="100%" type="file" class="custom-file-input" name="file" id="customFile"
+                            formControlName="nome_arquivo" (change)="onSelectFile($event)" multiple />
+
+                        <!-- <span class="editProfile" *ngIf="(ifImageAvailable)" (click)="uploadButtonClick()">Trocar</span> -->
+                        <!-- <input type='file' (change)="onSelectFile($event)" formControlName="nome_arquivo"> -->
+                        <label class="custom-file-label" for="customFile" id="customFileLabel"
+                            style="background-color: gray"></label>
+                    </div>
+                </div>
+
+                <div class="w-100 mt-2">
+                    <h2>Financeiro</h2>
+                    <div class="divider mt-1"></div>
+                </div>
+
+                <div class="w-100 mt-2">
+                    <mat-form-field fxFlex="48%" class="mr-1"
+                        [ngClass]="{validationcolor:produto.controls.tipo_entrega.hasError('required') && submitted }">
+                        <mat-select placeholder="Entrega" formControlName="tipo_entrega" required>
+                            <mat-option value="Retiro no local">Retiro no local</mat-option>
+                            <mat-option value="Motoboy Porto Alegre">Motoboy Porto Alegre</mat-option>
+                            <mat-option value="Motoboy Grande Porto Alegre">Motoboy Grande Porto Alegre</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="produto.controls['tipo_entrega'].hasError('required')&&submitted">
+                            Tipo de Entrega Requerido
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field fxFlex="48%" class="ml-1"
+                        [ngClass]="{validationcolor:produto.controls.tipo_pagto.hasError('required') && submitted }">
+                        <mat-select placeholder="Pagamento" formControlName="tipo_pagto">
+                            <mat-option value="A Vista">A vista na retirada</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="produto.controls['tipo_pagto'].hasError('required')&&submitted">
+                            Tipo de Pagamento Requerido
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="w-100 mt-2">
+                    <h2>Observação</h2>
+                    <div class="divider mt-1"></div>
+                </div>
+
+                <div class="w-100 mt-1">
+                    <div fxLayout="row" fxFlex>
+                        <mat-form-field fxFlex="100%">
+                            <textarea formControlName="observacao" matInput cdkTextareaAutosize
+                                #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1" cdkAutosizeMaxRows="5"
+                                placeholder="obs"></textarea>
+                            <!-- <textarea matInput placeholder="Observação" formControlName="observacao"></textarea> -->
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="w-100 mt-2">
+                    <button mat-flat-button color="primary" style="width: 100%" (click)="addToCart(product)">ENVIAR
+                        SOLICITAÇÃO</button>
+                    <!-- <button fxFlex="100%" mat-flat-button color="primary" (click)="placeOrder()">ENVIAR
+                                    SOLICITAÇÃO</button> -->
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div *ngIf="product?.availibilityCount == 0 && type=='all'" class="bg-warn p-1 mt-2">
+    Desculpe, este item não está disponível. Por favor, escolha um diferente.
+</div>
+<!-- *ngIf="type==='all'" -->

@@ -1,0 +1,31 @@
+<app-sales-header></app-sales-header>
+<div class="row products-section">
+  <div class="col-12">
+    <div class="card">
+      <div class="product-ts-left">
+        <ul>
+          <li>
+            <p>Total Pedidos</p>
+            <h3>{{layoutSandbox.totalOrderCount$ | async}}</h3>
+          </li>
+          <li>
+            <p>Total Pedidos Diário</p>
+            <h3>{{layoutSandbox.todayOrderCount$ | async}}</h3>
+          </li>
+          <li>
+            <p>Total Pedidos R$</p>
+            <h3> {{(layoutSandbox.totalOrderAmount$ | async) | currency:'BRL'}}</h3>
+          </li>
+          <li>
+            <p>Total Pedidos Diário R$</p>
+            <h3>{{(layoutSandbox.todayOrderAmount$ | async) | currency:'BRL'}}</h3>
+          </li>
+        </ul>
+      </div>
+      <!--Left-->
+      
+    </div>
+  </div>
+</div>
+
+<router-outlet></router-outlet>

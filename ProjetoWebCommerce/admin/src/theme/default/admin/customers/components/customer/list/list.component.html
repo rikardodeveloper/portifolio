@@ -1,0 +1,151 @@
+<div class="row products-section products-sub-section">
+    <div class="col-12">
+        <div class="breadcrumbs-row">
+            <div class="bc-col">
+                <ul>
+                    <li><a href="javascript:void(0)">Cliente </a></li>
+                    <li> Clientes </li>
+                </ul>
+            </div>
+            <div class="bc-col-btn">
+                <button class="btn customer-btn" (click)="addaddresscustomer()"><img src="assets/img/add-white-ico.png">
+                    Add Cliente
+                </button>
+            </div>
+        </div>
+    </div>
+    <!--Breadcrumbs-->
+    <div class="col-12">
+        <div class="flex filter-row">
+            <div class="filter-lft">
+                <div class="toggle">
+                    <p>Filtros</p>
+                    <input class="tgl tgl-light" id="cb1" type="checkbox" [checked]="true" (change)="check($event)"/>
+                    <label class="tgl-btn" for="cb1"></label>
+                </div>
+                <div class="order-status">
+                    <p>Status</p>
+                    <li style="list-style: none">
+                        <span style="display: inline-block;width: 14px;height: 16px;margin-right: 6px;vertical-align: middle;background-color: #32b643;"></span>Ativo
+                        <span style="display: inline-block;width: 14px;height: 16px;margin-left: 3px;margin-right: 7px;vertical-align: middle;background-color: #ea5738e6;"></span>Não Ativo
+                    </li>
+                </div>
+            </div>           
+        </div>
+    </div>
+</div>
+
+<div class="flex product-wrap example-full-width">
+
+    <div *ngIf="buttoncheck == true" class="filter-section border-right">
+        <div class="w3-container w3-animate-left">
+            <app-customer-filter (ProgressEmit)="receiveProgress($event)"></app-customer-filter>
+        </div>
+        <!--Filter-->
+    </div>
+    <div class="product-table" [ngClass]="{'changesize': buttoncheck == true }">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col" width="5%">
+                        <div class="form-group">
+                            <div class="custom-control custom-checkbox mr-sm-2">
+                            </div>
+                        </div>
+                    </th>
+                    <!-- <th scope="col">{{'Customers.Customer.ID'| translate}}</th> -->
+                    <th scope="col">Nome</th>
+                    <th scope="col">E-mail Id</th>
+                    <!-- <th scope="col">Grupo</th> -->
+                    <th scope="col">Data Registro</th>
+                    <!--<th scope="col">IP</th>-->
+                    <!-- <th scope="col">Endereço</th> -->
+                    <th scope="col" class="text-center">Status</th>
+                    <th scope="col">Ação</th>                   
+                </tr>
+                </thead>
+                <tbody>
+
+                <tr *ngFor="let customelist of sandbox.getCustomerlist$ | async;">
+                    <th scope="row">
+                        <div class="form-group">
+                            <div class="custom-control custom-checkbox mr-sm-2">
+                                <input type="checkbox" class="custom-control-input" id={{customelist.id}}  value="check">
+                                <label class="custom-control-label" for={{customelist.id}}></label>
+                            </div>
+                        </div>
+
+                    </th>
+                    <!-- <td>{{customelist.id}}</td> -->
+                    <td class="td_css">
+                        <a
+                                placement="bottom"
+                                ngbTooltip="{{'ToolTip.viewDetails'| translate}}"
+                                (click)="viewcustomer(customelist.id)">
+                            <b></b>{{customelist.firstName}} {{customelist.lastName}}</a></td>
+                    <td>{{customelist.email}}</td>
+                    <!-- <td>Default</td> -->
+                    <td>{{customelist.createdDate | date : "dd-MM-yyyy"}}</td>
+                    <!-- <td><a href="javascript:void(0)"
+                           (click)="open2( content , customelist.id)">
+                        <i class="fa fa-address-card"
+                           style="font-size:25px;color:gray"></i> </a>
+                    </td> -->
+
+                    <td class="text-center">
+                        <div *ngIf="customelist.isActive === 1">
+                            <span style="width: 41px;background: #32b643; color: white;display: inline-block;padding: 1px 4px;"><b>Ativo</b></span>
+
+                        </div>
+                        <div *ngIf="customelist.isActive === 0">
+                            <span style="background: #ea5738e6; color: white;width: 63px;display: inline-block;padding: 1px 4px;"><b>Não Ativo</b></span>
+                        </div>
+                    </td>
+
+                    <td>
+                        <a href="javascript:void(0)" (click)="editcustomer(customelist)"> <img
+                                src="assets/img/edit-ico.png"> </a>
+                        <i [ngbPopover]="deleteContent" placement="bottom" #deletePop="ngbPopover"
+                           style="margin-left: 1px;padding:10px"><img src="assets/img/delete-ico.png">
+                            <ng-template #deleteContent>
+                                <div class="style">
+                                    <div class="modal-header">
+                                        <h6 class="modal-title"
+                                            style="margin-left: 17%;">  Deseja mesmo deletar? </h6>
+
+                                    </div>
+
+                                    <div class="modal-footer" style="margin-right: 23%;">
+                                        <button type="button" class="btn btn-danger" (click)="deletePop.close()"
+                                                data-dismiss="modal">Não
+                                        </button>
+                                        <button type="button" class="btn btn-success"
+                                                (click)="deletecustomer(customelist.id, deletePop)"
+                                                data-dismiss="modal">Sim
+                                        </button>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </i>
+
+                    </td>
+
+                   
+                </tr>
+
+                </tbody>
+            </table>
+            <mat-paginator
+                    [length]="sandbox.getpagination$ | async"
+                    [pageIndex]="index"
+                    [pageSize]="pageSize"
+                    [pageSizeOptions]="[pageSize]"
+                    (page)="onPageChange($event)">
+            </mat-paginator>
+        </div>
+    </div>
+    <!--Table-->
+</div>
+
+

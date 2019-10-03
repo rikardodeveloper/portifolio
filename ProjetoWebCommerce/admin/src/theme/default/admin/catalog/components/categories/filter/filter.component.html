@@ -1,0 +1,22 @@
+<form [formGroup]="filterForm">
+    <div class="form-group">
+        <label> Nome Categoria</label>
+        <select class="custom-select col-12" id="inlineFormCustomSelect" formControlName="categoryNameList">
+            <option selected>Selecione</option>
+            <option *ngFor="let val of categoryListArray">{{val.name}}</option>
+        </select>
+    </div>
+    <div class="form-group get">
+        <label>Ordem de Classificação</label>
+        <select class="custom-select col-12" id="" formControlName="sortOrder">
+            <option value=''>Selecione</option>
+            <option value="1">Ascendente</option>
+            <option value="2">Descendente</option>
+        </select>
+
+    </div>
+    <div class="text-right filter-btns">
+        <a href="javascript:void(0)" (click)="reset()">Resetar</a>
+        <button type="submit" (click)="filter()" class="btn">Aplicar Filtros</button>
+    </div>
+</form>

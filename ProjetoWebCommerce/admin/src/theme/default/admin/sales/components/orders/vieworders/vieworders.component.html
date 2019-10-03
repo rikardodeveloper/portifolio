@@ -1,0 +1,317 @@
+<div class="row products-section view-orders">
+    <div class="col-12">
+        <div class="breadcrumbs-row noborder">
+            <div class="bc-col">
+                <ul>
+                    <li><a href="javascript:void(0)">Vendas</a></li>
+                    <li> Pedido </li>
+                </ul>
+            </div>
+            <div class="bc-col-btn ap-col-btn">
+            </div>
+        </div>
+    </div>
+    <!--Breadcrumbs-->
+</div>
+
+<div class="row vieworder-wrap" *ngIf="(orderSandbox.getvieworderData$ | async) as detail">
+
+    <div class="order-wrap">
+
+        <div class="flex order-top">
+            <h3>Pedido ID #{{detail.orderPrefixId}}</h3>
+            <!-- <a *ngIf="(orderSandbox.settingDetail$ | async) as setting" href="javascript:void(0)"
+                (click)="downloadInvoiceDetail(detail, setting)">Download PDF</a> -->
+            <!-- <a href="javascript:void(0)" (click)="salvar()">Salvar</a> -->
+            <div>
+                <button class="btn btn-warning" *ngIf="(orderSandbox.settingDetail$ | async) as setting"
+                    (click)="downloadInvoiceDetail(detail, setting)" [disabled]="editouRegistro" style="font-size: medium; color: black">Download
+                    PDF</button>
+                <button type="button" class="btn btn-success" (click)="salvar()" style="font-size: medium; color: black">Salvar Pedido</button>
+            </div>
+
+        </div>
+        <!-- Top -->
+
+        <div style="padding: 0px 10px 0px 10px">
+            <div class="order-table">
+                <h3 style="background-color:grey">Pedido</h3>
+                <table class="table" style="background-color:lightgray;font-size: 16px">
+                    <div class="row" style="padding: 10px 10px 0px 10px">
+                        <div class="col-sm-2">
+                            <span>Data Pedido</span>
+                            <p style="font-size: large">
+                                {{detail.createdDate | date:"dd/MM/yyyy HH:mm"}}h</p>
+                        </div>
+                        <div class="col-sm">
+                            <span>Previsão de Entrega</span>
+                            <input matInput class="form-control" type="datetime-local" [(ngModel)]="dtHrPrevisao" min="2019-01-01" max="2029-12-31"
+                                required />
+                        </div>
+                        <div class="col-sm">
+                            <span>Status Pedido</span>
+                            <span class="process">
+                                <div class="form-group">
+                                    <select class="custom-select col-12" [(ngModel)]="orderStatusIdModel"
+                                        (ngModelChange)="onItemChange($event)">
+                                        <option *ngFor="let data of orderStatusSandbox.getOrderstatuslist$ | async"
+                                            value={{data.orderStatusId}}>{{data.name}}</option>
+
+                                    </select>
+                                </div>
+                            </span>
+                        </div>
+
+                        <div class="col-sm-4" style="
+                                 display: flex;
+                                 flex-direction: row;
+                                 justify-content: center;
+                                 align-items: center">
+
+                            <div class="col-sm">
+                                <input type="checkbox" class="tgl tgl-light" [(ngModel)]="reenviado">
+                                <span style="font-size: medium"> Reenviado</span>
+                            </div>
+
+                            <div class="col-sm">
+                                <input type="checkbox" class="tgl tgl-light" [(ngModel)]="faturado">
+                                <span style="font-size: medium"> Faturado</span>
+                            </div>
+                            <div class="col-sm">
+                                <input type="checkbox" class="tgl tgl-light" [(ngModel)]="pago">
+                                <span style="font-size: medium"> Pago</span>
+                            </div>
+                        </div>
+                    </div>
+                </table>
+            </div>
+        </div>
+
+        <div style="padding: 0px 10px 0px 10px">
+            <div class="order-table">
+                <h3 style="background-color:grey">Dados do Cliente</h3>
+                <table class="table" style="background-color:lightgray;font-size: 16px">
+                    <div class="row" style="padding: 10px 10px 0px 10px">
+                        <div class="col-sm">
+                            <span>Cliente</span>
+                            <p style="font-size: medium">{{detail.shippingFirstname}}</p>
+                        </div>
+                        <div class="col-sm">
+                            <span>Login</span>
+                            <p style="font-size: medium">{{detail.customerDetail.username}}</p>
+                        </div>
+                        <div class="col-sm">
+                            <span>Email Principal</span>
+                            <p style="font-size: medium">{{detail.customerDetail.email}}</p>
+                        </div>
+                    </div>
+                    <div class="row" style="padding: 0px 10px 0px 10px">
+                        <div class="col-sm">
+                            <span>Contato</span>
+                            <p style="font-size: medium">{{detail.contato}}</p>
+                        </div>
+                        <div class="col-sm">
+                            <span>Celular</span>
+                            <p style="font-size: medium">{{detail.mobile}}</p>
+                        </div>
+                        <div class="col-sm">
+                            <span>Telefone</span>
+                            <p style="font-size: medium">{{detail.telephone}}</p>
+                        </div>
+                    </div>
+                    <div class="row" style="padding: 0px 10px 0px 10px">
+                        <div class="col-sm">
+                            <span>Endereço</span>
+                            <p style="font-size: medium">{{detail.shippingAddress1}}, {{detail.shippingAddress2}} ,
+                                {{detail.shippingCity}}</p>
+                        </div>
+                    </div>
+                </table>
+            </div>
+        </div>
+
+        <div style="padding: 0px 10px 0px 10px">
+
+            <div class="order-table">
+                <h3 style="background-color:grey">Descrição</h3>
+                <table class="table" style="background-color:lightgray;font-size: 16px">
+                    <div class="row" style="padding: 10px">
+                        <div class="col-sm">
+                            <span>Produto</span>
+                            <input matInput type="text" class="form-control" placeholder='nome do produto'
+                                [(ngModel)]="produtoNome" readonly>
+                        </div>
+                        <div class="col-sm">
+                            <span>Título</span>
+                            <input matInput type="text" class="form-control" placeholder='título' [(ngModel)]="titulo">
+                        </div>
+                        <div class="col-sm-2" hidden>
+                            <span>Unit. R$</span>
+                            <input matInput type="text" class="form-control" placeholder='preço do produto'
+                                [(ngModel)]="valor">
+                        </div>
+                        <div class="col-sm-2">
+                            <span>Total R$</span>
+                            <input matInput type="text" class="form-control" placeholder='total' [(ngModel)]="total"
+                                readonly>
+                        </div>
+
+                    </div>
+                    <div class="row" style="padding: 10px">
+                        <div class="col-sm">
+                            <span>Quantidade</span>
+                            <input matInput type="number" class="form-control" placeholder='quantidade'
+                                [(ngModel)]="quantidade" (change)="changeCount()">
+                        </div>
+                        <div class="col-sm">
+                            <span>Tamanho</span>
+                            <input matInput type="text" class="form-control" placeholder='tamanho' [(ngModel)]="tamanho"
+                                readonly>
+                        </div>
+                        <div class="col-sm">
+                            <span>Mídia</span>
+                            <select placeholder="Mídia" class="form-control" [(ngModel)]="midia">
+                                <option value="Adesivo Brilho">Adesivo Brilho</option>
+                                <option value="Adesivo Fosco">Adesivo Fosco</option>
+                                <option value="Reticula 175 lpi">Reticula 175 lpi</option>
+                                <option value="Reticula 200 lpi">Reticula 200 lpi</option>
+                                <option value="Reticula Estocastica">Reticula Estocastica</option>
+                            </select>
+                            <!-- <input matInput type="text" class="form-control" placeholder='mídia'
+                                [(ngModel)]="midia"> -->
+                        </div>
+
+                        <!-- PARA CENTRALIZAR a DIV style="align-items: center; display: flex; flex-direction: row; flex-wrap: wrap; justify-content: center;" -->
+                    </div>
+
+                    <div class="row" style="padding: 10px">
+                        <div class="col-sm">
+                            <span>Forma de Pagamento</span>
+                            <select placeholder="Pagamento" class="form-control" [(ngModel)]="formaPagto">
+                                <option value="A Vista">A vista na retirada</option>
+                            </select>
+                            <!-- <input matInput type="text" class="form-control" [(ngModel)]="formaPagto"> -->
+                        </div>
+                        <div class="col-sm">
+                            <span>Forma de Entrega</span>
+                            <select placeholder="Entrega" class="form-control" [(ngModel)]="formaEntrega">
+                                <option value="Retiro no local">Retiro no local</option>
+                                <option value="Motoboy Porto Alegre">Motoboy Porto Alegre</option>
+                                <option value="Motoboy Grande Porto Alegre">Motoboy Grande Porto Alegre</option>
+                            </select>
+                            <!-- <input matInput type="text" class="form-control" [(ngModel)]="formaEntrega"> -->
+                        </div>
+                    </div>
+
+                    <div class="row" style="padding: 10px">
+                        <div class="col-sm">
+                            <span>Observação</span>
+                            <textarea class="form-control" [(ngModel)]="observacao" rows="3"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="row" style="padding: 10px" hidden>
+                        <div class="col-sm">
+                            <span>Pedido Arquivo(s)</span>
+                            <input matInput type="text" class="form-control" [(ngModel)]="nomeArquivo"
+                                placeholder='nome do arquivo'>
+                        </div>
+                        <div class="col-sm-2">
+
+                            <button type="button" class="btn btn-primary" style="align-items: center center"
+                                (click)="download()">{{btnDownloadText}}</button>
+                        </div>
+                    </div>
+
+
+                    <div class="row" style="padding: 10px">
+                        <div class="col-sm-6">
+                            <mat-card class="example-card">
+                                <mat-card-header>
+                                    <mat-card-title>Pedido Arquivo(s)</mat-card-title>
+                                    <mat-card-subtitle>{{btnDownloadText}}</mat-card-subtitle>
+                                </mat-card-header>
+                                <mat-card-content>
+                                    <mat-selection-list #shoes>
+                                        <mat-list-item *ngFor="let arquivo of listaArquivos">
+                                            <span matLine href="...">{{arquivo}}</span>
+                                            <button type="button" class="btn btn-success"
+                                                (click)="downArquivo(arquivo)">
+                                                <mat-icon>arrow_downward</mat-icon>
+                                            </button>
+
+                                        </mat-list-item>
+                                    </mat-selection-list>
+                                </mat-card-content>
+                                <mat-card-actions>
+                                    <button type="button" class="btn btn-success" (click)="download()">Baixar
+                                        todos</button>
+                                </mat-card-actions>
+                            </mat-card>
+                        </div>
+                        <div class="col-sm-6">
+                            <mat-card class="example-card">
+                                <mat-card-header>
+                                    <mat-card-title>Diversos</mat-card-title>
+                                    <!-- <mat-card-subtitle>{{btnDownloadText}}</mat-card-subtitle> -->
+                                </mat-card-header>
+                                <mat-card-content>
+                                    <div class="row" style="padding: 10px 10px 10px 10px">
+                                        <span style="font-size: large; padding: 0px 10px 0px 10px">Acabamentos</span>
+                                    </div>
+
+                                    <div class="row" style="padding:  0px 10px 0px 10px">
+                                        <div class="col-sm">
+                                            <input type="checkbox" class="tgl tgl-light" [(ngModel)]="ajuste_cor"
+                                                (click)="onClickCheckBox('ajuste_cor_click')">
+                                            <span style="font-size: medium"> Ajuste Cor</span>
+                                        </div>
+
+                                    </div>
+                                    <div class="row" style="padding:  0px 10px 0px 10px">
+                                        <div class="col-sm">
+                                            <input type="checkbox" class="tgl tgl-light" [(ngModel)]="super_a3"
+                                                (click)="onClickCheckBox('super_a3_click')">
+                                            <span style="font-size: medium"> Super A3</span>
+                                        </div>
+
+                                    </div>
+                                    <div class="row" style="padding:  0px 10px 0px 10px">
+                                        <div class="col-sm">
+                                            <input type="checkbox" class="tgl tgl-light" [(ngModel)]="frente_verso"
+                                                (click)="onClickCheckBox('frente_verso_click')">
+                                            <span style="font-size: medium"> Frente Verso</span>
+                                        </div>
+
+                                    </div>
+                                    <div class="row" style="padding:  0px 10px 0px 10px">
+                                            <div class="col-sm">
+                                                <input type="checkbox" class="tgl tgl-light" [(ngModel)]="fecham_arquivo"
+                                                    (click)="onClickCheckBox('fecham_arquivo_click')">
+                                                <span style="font-size: medium"> Fechamento de Arquivo</span>
+                                            </div>
+    
+                                        </div>
+                                </mat-card-content>
+                            </mat-card>
+                        </div>
+                    </div>
+
+                </table>
+            </div>
+
+        </div>
+
+        <!-- Table -->
+        <div class="flex order-btn">
+            <a href="javascript:void(0)" [routerLink]="['/sales/orders/list']">Voltar
+            </a>
+            <!-- <a *ngIf="(orderSandbox.settingDetail$ | async) as setting" href="javascript:void(0)" class="dload"
+                (click)="downloadInvoiceDetail(detail, setting)">Download PDF</a> -->
+        </div>
+
+    </div>
+    <!-- Order Content -->
+
+</div>
+<!-- Order Wrap -->

@@ -1,0 +1,280 @@
+<mat-card>
+    <div fxLayout="row wrap">
+        <div fxFlex="100" fxFlex.gt-sm="50" class="p-2">
+            <router-outlet></router-outlet>
+        </div>
+        <div fxFlex="100" fxFlex.gt-sm="50" class="p-2" ngClass.sm="mt-2" ngClass.xs="mt-2">
+            <h2 class="text-muted text-center">{{'authentication.SignUpNow'|translate}}</h2>
+            <form [formGroup]="registerForm" (ngSubmit)="onRegisterFormSubmit(registerForm.value)" novalidate>
+
+                <div class="w-100 mt-2">
+                    <h3>Fiscal</h3>
+                    <div class="divider"></div>
+                </div>
+
+                <mat-form-field class="w-100 mt-1"
+                    [ngClass]="{validationcolor:registerForm.controls.tipo_cadastro.hasError('required') && submitted }">
+                    <mat-select placeholder="Tipo de Cadastro" formControlName="tipo_cadastro" required
+                        [(value)]="selected" (selectionChange)="onTipoCadastroChange()">
+                        <mat-option value="Pessoa Fisica">Pessoa Fisica</mat-option>
+                        <mat-option value="Pessoa Juridica">Pessoa Juridica</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="registerForm.controls['tipo_cadastro'].hasError('required')&&submitted">
+                        Tipo de cadastro é requerido
+                    </mat-error>
+
+                </mat-form-field>
+
+                <mat-form-field class="w-100"
+                    [ngClass]="{validationcolor:registerForm.controls.name.hasError('required') && submitted }">
+                    <input matInput
+                        [placeholder]="selected === 'Pessoa Fisica' ? 'Nome Completo' : 'Razão Social da Empresa'"
+                        formControlName="name" id="name" required>
+                    <mat-error *ngIf="registerForm.controls['name'].hasError('required') && submitted">
+                        {{'Error.FullNameIsRequired'|translate}}</mat-error>
+                    <mat-error *ngIf="registerForm.controls['name'].hasError('minlength') && submitted">
+                        {{'Error.FullNameLong'|translate}}</mat-error>
+                </mat-form-field>
+
+                <div class="w-100">
+                    <div fxLayout="row">
+                        <mat-form-field fxFlex="48%"
+                            [ngClass]="{validationcolor:registerForm.controls.cnpj_cpf.hasError('required') && submitted }">
+                            <input matInput [placeholder]="selected === 'Pessoa Fisica' ? 'CPF' : 'CNPJ'"
+                                formControlName="cnpj_cpf" required [textMask]="selected === 'Pessoa Fisica' ? {mask: maskCPF} : {mask: maskCNPJ}">
+                            <mat-error *ngIf="registerForm.controls['cnpj_cpf'].hasError('required') && submitted">
+                                Campo requerido</mat-error>
+                        </mat-form-field>
+
+                        <div fxFlex="4%">
+                        </div>
+
+                        <mat-form-field fxFlex="48%"
+                            [ngClass]="{validationcolor:registerForm.controls.inscr_estad_rg.hasError('required') && submitted }">
+                            <input class="w-100" matInput
+                                [placeholder]="selected === 'Pessoa Fisica' ? 'RG' : 'Inscrição Estadual'"
+                                formControlName="inscr_estad_rg" required appOnlyNumber maxlength=15>
+                            <mat-error
+                                *ngIf="registerForm.controls['inscr_estad_rg'].hasError('required') && submitted">
+                                Campo requerido</mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="w-100 mt-2">
+                    <h3>Endereço</h3>
+                    <div class="divider"></div>
+                </div>
+
+                <mat-form-field class="w-100 mt-1"
+                    [ngClass]="{validationcolor:registerForm.controls.address.hasError('required') && submitted }">
+                    <input matInput placeholder="Endereço" formControlName="address" required>
+                    <mat-error *ngIf="registerForm.controls['address'].hasError('required') && submitted">
+                        Campo requerido</mat-error>
+                </mat-form-field>
+
+                <div class="w-100">
+                    <div fxLayout="row">
+                        <mat-form-field fxFlex="48%"
+                            [ngClass]="{validationcolor:registerForm.controls.address_numero.hasError('required') && submitted }">
+                            <input matInput placeholder="Número" formControlName="address_numero" required>
+                            <mat-error
+                                *ngIf="registerForm.controls['address_numero'].hasError('required') && submitted">
+                                Campo requerido</mat-error>
+                        </mat-form-field>
+
+                        <div fxFlex="4%">
+                        </div>
+
+                        <mat-form-field fxFlex="48%">
+                            <input matInput placeholder="Complemento" formControlName="complemento">
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="w-100">
+                    <div fxLayout="row">
+                        <mat-form-field fxFlex="48%"
+                            [ngClass]="{validationcolor:registerForm.controls.pincode.hasError('required') && submitted }">
+                            <input matInput placeholder="Cep" formControlName="pincode" required>
+                            <mat-error *ngIf="registerForm.controls['pincode'].hasError('required') && submitted">
+                                Campo requerido</mat-error>
+                        </mat-form-field>
+
+                        <div fxFlex="4%">
+                        </div>
+
+                        <mat-form-field fxFlex="48%"
+                            [ngClass]="{validationcolor:registerForm.controls.bairro.hasError('required') && submitted }">
+                            <input matInput placeholder="Bairro" formControlName="bairro" required>
+                            <mat-error *ngIf="registerForm.controls['bairro'].hasError('required') && submitted">
+                                Campo requerido</mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="w-100">
+                    <div fxLayout="row">
+                        <mat-form-field fxFlex="48%"
+                            [ngClass]="{validationcolor:registerForm.controls.cidade.hasError('required') && submitted }">
+                            <input matInput placeholder="Cidade" formControlName="cidade" required>
+                            <mat-error *ngIf="registerForm.controls['cidade'].hasError('required') && submitted">
+                                Campo requerido</mat-error>
+                        </mat-form-field>
+
+                        <div fxFlex="4%">
+                        </div>
+
+                        <mat-form-field fxFlex="22%"
+                            [ngClass]="{validationcolor:registerForm.controls.zoneId.hasError('required') && submitted }">
+                            <mat-select placeholder="Estado" formControlName="zoneId" required>
+                                <mat-option *ngFor="let list of (listsSandbox.zoneList$ | async)"
+                                    [value]="list['zoneId']">
+                                    {{list.name}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="registerForm.controls['zoneId'].hasError('required') && submitted">
+                                {{'Error.StateIsRequired'|translate}}
+                            </mat-error>
+
+                        </mat-form-field>
+
+                        <div fxFlex="4%">
+                        </div>
+
+                        <mat-form-field fxFlex="22%"
+                            [ngClass]="{validationcolor:registerForm.controls.country.hasError('required') && submitted }">
+                            <mat-select placeholder="País" formControlName="country" required>
+                                <mat-option *ngFor="let list of listsSandbox.countryList$ | async"
+                                    [value]=list.countryId>
+                                    {{list.name}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="registerForm.controls['country'].hasError('required') && submitted">
+                                {{'Error.CountryIsRequired'|translate}}
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="w-100">
+                    <div fxLayout="row">
+                        <mat-form-field fxFlex="48%"
+                            [ngClass]="{validationcolor:registerForm.controls.phoneNumber.hasError('required') && submitted }">
+                            <input matInput type="text" placeholder="Fone (xx) xxxx-xxxx" formControlName="phoneNumber" required  [textMask]="{mask: maskFone}">
+                            <mat-error *ngIf="registerForm.controls['phoneNumber'].hasError('required') && submitted">
+                                Campo requerido</mat-error>
+                        </mat-form-field>
+
+                        <div fxFlex="4%">
+                        </div>
+
+                        <mat-form-field fxFlex="48%"
+                            [ngClass]="{validationcolor:registerForm.controls.mobile.hasError('required') && submitted }">
+                            <input matInput placeholder="Celular (xx) xxxxx-xxxx" formControlName="mobile" required  [textMask]="{mask: maskFoneCel}">
+                            <mat-error *ngIf="registerForm.controls['mobile'].hasError('required') && submitted">
+                                Campo requerido</mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="w-100">
+                    <div fxLayout="row">
+                        <mat-form-field fxFlex="48%"
+                            [ngClass]="{validationcolor:registerForm.controls.contato_resp.hasError('required') && submitted }">
+                            <input matInput placeholder="Contato" formControlName="contato_resp" required>
+                            <mat-error *ngIf="registerForm.controls['contato_resp'].hasError('required') && submitted">
+                                Campo requerido</mat-error>
+                            <mat-error *ngIf="registerForm.controls['contato_resp'].hasError('minlength') && submitted">
+                                Campo requerido</mat-error>
+                        </mat-form-field>
+
+                        <div fxFlex="4%">
+                        </div>
+
+                        <mat-form-field fxFlex="48%">
+                            <input matInput placeholder="Web Site" formControlName="website">
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="w-100">
+                    <div fxLayout="row">
+                        <mat-form-field fxFlex="48%"
+                            [ngClass]="{validationcolor:registerForm.controls.email_preimpressao.hasError('required') && submitted }">
+                            <input matInput placeholder="Email pré-impressão" formControlName="email_preimpressao"
+                                required>
+                            <mat-error
+                                *ngIf="registerForm.controls['email_preimpressao'].hasError('required') && submitted">
+                                Campo requerido</mat-error>
+                            <mat-error
+                                *ngIf="registerForm.controls['email_preimpressao'].hasError('minlength') && submitted">
+                                Campo requerido</mat-error>
+                        </mat-form-field>
+
+                        <div fxFlex="4%">
+                        </div>
+
+                        <mat-form-field fxFlex="48%"
+                            [ngClass]="{validationcolor:registerForm.controls.email_financeiro.hasError('required') && submitted }">
+                            <input matInput placeholder="Email financeiro" formControlName="email_financeiro" required>
+                            <mat-error
+                                *ngIf="registerForm.controls['email_financeiro'].hasError('required') && submitted">
+                                Campo requerido</mat-error>
+                            <mat-error
+                                *ngIf="registerForm.controls['email_financeiro'].hasError('minlength') && submitted">
+                                Campo requerido</mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="w-100 mt-2">
+                    <h3>Login</h3>
+                    <div class="divider"></div>
+                </div>
+
+                <mat-form-field class="w-100 mt-1"
+                    [ngClass]="{validationcolor:registerForm.controls.email.hasError('required') && submitted }">
+                    <input matInput placeholder="Email" formControlName="email" required>
+                    <mat-error *ngIf="registerForm.controls['email'].hasError('required') && submitted">
+                        {{'Error.EmailIsRequired'|translate}}</mat-error>
+                    <mat-error *ngIf="registerForm.controls['email'].hasError('invalidEmail') && submitted">
+                        {{'Error.InvalidEmailAddress'|translate}}</mat-error>
+                </mat-form-field>
+                <mat-form-field class="w-100"
+                    [ngClass]="{validationcolor:registerForm.controls.password.hasError('required') && submitted }">
+                    <input matInput placeholder="{{'authentication.Password'|translate}}" formControlName="password"
+                        type="password" minlength="5" required>
+                    <mat-error *ngIf="registerForm.controls['password'].hasError('required') && submitted">
+                        {{'Error.PasswordisRequired'|translate}}</mat-error>
+                    <mat-error *ngIf="registerForm.controls['password'].hasError('minlength') && submitted">
+                        {{'Error.PasswordLong'|translate}}</mat-error>
+                </mat-form-field>
+                <mat-form-field class="w-100"
+                    [ngClass]="{validationcolor:registerForm.controls.confirmPassword.hasError('required') && submitted }">
+                    <input matInput placeholder="{{'authentication.ConfirmPassword'|translate}}"
+                        formControlName="confirmPassword" type="password" required>
+                    <mat-error *ngIf="registerForm.controls['confirmPassword'].hasError('required') && submitted">
+                        Confirm Password is required</mat-error>
+                    <mat-error
+                        *ngIf="registerForm.controls['confirmPassword'].hasError('mismatchedPasswords') && submitted">
+                        Passwords do not match</mat-error>
+                </mat-form-field>
+                <div class="w-100">
+                    <h5>Obs: Maneira a qual você irá se identificar para sistema.</h5>
+                </div>
+                <!-- <mat-form-field class="w-100 mt-1">
+                    <input matInput type="text" maxlength=15 appOnlyNumber
+                        placeholder="{{'authentication.PhoneNumber'|translate}}" formControlName="phoneNumber">
+
+                </mat-form-field> -->
+
+                <div class="text-center mt-2">
+                    <button mat-fab color="primary" type="submit" class="mat-elevation-z6">
+                        <mat-icon>person_add</mat-icon>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</mat-card>

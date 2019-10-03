@@ -1,0 +1,442 @@
+<div class="row products-section">
+    <div class="col-12">
+        <div class="breadcrumbs-row noborder">
+            <div class="bc-col">
+                <ul>
+                    <li><a href="javascript:void(0)">Clientes </a></li>
+                    <li>Cliente</li>
+                </ul>
+            </div>
+            <div class="bc-col-btn ap-col-btn">
+                <button class="btn btn-save" (click)="onSubmit()"><img src="assets/img/tick-round-white.png"> Salvar
+                </button>
+                <button (click)="addCustCancle()" class="btn btn-cancel"><img src="assets/img/close-white-ico.png">
+                    Cancelar </button>
+            </div>
+        </div>
+    </div>
+    <!--Breadcrumbs-->
+</div>
+
+<form (ngSubmit)="onSubmit()" [formGroup]="customerForm" class="form-horizontal m-t-20">
+    <div class="flex addproduct-wrap">
+
+        <div class="card ap-general">
+            <div class="ap-header">
+                <span> 1 </span>Cliente Detalhes
+            </div>
+
+            <div class="flex ap-body">
+
+                <div class="ap-body-col">
+                    <div class="form-group">
+                        <label>Cliente Grupo<sup>*</sup></label>
+                        <select class="custom-select col-12" [(ngModel)]="customerGroup"
+                            [ngClass]="{ 'is-invalid': submitted && f.customerGroup.errors }"
+                            formControlName="customerGroup">
+                            <option [ngValue]="undefined" selected>- -Selecione o grupo- -</option>
+                            <option value=1>Default</option>
+                        </select>
+                        <div *ngIf="submitted && f.customerGroup.errors" class="invalid-feedback">
+                            <div *ngIf="f.customerGroup.errors.required">
+                                Campo Requerido</div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="ap-body-col">
+                    <div class="form-group">
+                        <label>Cliente Tipo<sup>*</sup></label>
+                        <select class="custom-select col-12" [(ngModel)]="tipo_cadastro"
+                            [ngClass]="{ 'is-invalid': submitted && f.tipo_cadastro.errors }"
+                            formControlName="tipo_cadastro" >
+                            <option [ngValue]="undefined" selected>- -Selecione o grupo- -</option>
+                            <option value="Pessoa Fisica">Pessoa Fisica</option>
+                            <option value="Pessoa Juridica">Pessoa Juridica</option>
+                        </select>
+                        <div *ngIf="submitted && f.tipo_cadastro.errors" class="invalid-feedback">
+                            <div *ngIf="f.tipo_cadastro.errors.required">
+                                Campo Requerido</div>
+                        </div>
+                    </div>
+
+                </div>
+               
+                <!--Col-->
+                <div class="ap-body-col">
+                    <div class="form-group">
+                        <label>Telefone<sup>*</sup></label>
+                        <input type="text" class="form-control" [(ngModel)]="telephone" formControlName="telephone"
+                            appOnlyNumber maxlength="15"
+                            placeholder="{{'Customers.CustomerPlaceholder.Telephone'| translate}}"
+                            [ngClass]="{ 'is-invalid': submitted && f.telephone.errors }">
+                        <div *ngIf="submitted && f.telephone.errors" class="invalid-feedback">
+                            <div *ngIf="f.telephone.errors.required">Campo Requerido</div>                            
+                        </div>
+                    </div>
+                </div>
+                <!--Col-->
+
+                <div class="ap-body-col">
+                    <div class="form-group">
+                        <label>Mobile <sup>*</sup></label>
+                        <input type="text" class="form-control" [(ngModel)]="mobile" formControlName="mobile"
+                            appOnlyNumber maxlength="11" placeholder=""
+                            [ngClass]="{ 'is-invalid': submitted && f.mobile.errors }">
+                        <div *ngIf="submitted && f.mobile.errors" class="invalid-feedback">
+                            <div *ngIf="f.mobile.errors.required">
+                                Campo Requerido</div>                           
+                        </div>
+                    </div>
+                </div>
+
+                 <!--Col-->
+                 <div class="ap-body-col">
+                    <div class="form-group">
+                        <label>Nome/Razão<sup>*</sup> </label>
+                        <input type="text" [(ngModel)]="customerName" class="form-control"
+                            formControlName="customerName"
+                            [ngClass]="{ 'is-invalid': submitted && f.customerName.errors }"
+                            placeholder="Nome/Razão">
+                        <div *ngIf="submitted && f.customerName.errors" class="invalid-feedback">
+                            <div *ngIf="f.customerName.errors.required">
+                                Campo Requerido</div>
+                        </div>
+                    </div>
+                </div>
+                <!--Col-->
+               
+
+                <div class="ap-body-col">
+                    <div class="form-group">
+                        <label>CNPJ/CPF <sup>*</sup></label>
+                        <input type="text" class="form-control" [(ngModel)]="cnpj_cpf" formControlName="cnpj_cpf"
+                            placeholder="cnpj / cpf"
+                            [ngClass]="{ 'is-invalid': submitted && f.cnpj_cpf.errors }">
+                        <div *ngIf="submitted && f.cnpj_cpf.errors" class="invalid-feedback">
+                            <div *ngIf="f.cnpj_cpf.errors.required">
+                                Campo Requerido</div>                           
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ap-body-col">
+                    <div class="form-group">
+                        <label>Inscrição Est./RG<sup>*</sup></label>
+                        <input type="text" class="form-control" [(ngModel)]="inscr_estad_rg" formControlName="inscr_estad_rg"
+                            maxlength="20" placeholder="Inscr. Est, / RG"
+                            [ngClass]="{ 'is-invalid': submitted && f.inscr_estad_rg.errors }">
+                        <div *ngIf="submitted && f.inscr_estad_rg.errors" class="invalid-feedback">
+                            <div *ngIf="f.inscr_estad_rg.errors.required">
+                                Campo Requerido</div>                           
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ap-body-col">
+                    <div class="form-group">
+                        <label>Contato<sup>*</sup></label>
+                        <input type="text" class="form-control"
+                            [ngClass]="{ 'is-invalid': submitted && f.contato_resp.errors }"
+                            formControlName="contato_resp" [(ngModel)]="contato_resp"
+                            placeholder="Contato">
+                        <div *ngIf="submitted && f.contato_resp.errors" class="invalid-feedback">
+                            <div *ngIf="f.contato_resp.errors.required">
+                                Campo Requerido </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ap-body-col">
+                    <div class="form-group">
+                        <label>Web Site<sup>*</sup></label>
+                        <input type="text" class="form-control"
+                            [ngClass]="{ 'is-invalid': submitted && f.website.errors }"
+                            formControlName="website" [(ngModel)]="website"
+                            placeholder="Website">
+                        <div *ngIf="submitted && f.website.errors" class="invalid-feedback">
+                            <div *ngIf="f.website.errors.required">
+                                Campo Requerido </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ap-body-col">
+                    <div class="form-group">
+                        <label>Email Principal<sup>*</sup></label>
+                        <input type="email" [(ngModel)]="email" class="form-control" formControlName="email"
+                            placeholder="Email Principal"
+                            [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
+                        <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                            <div *ngIf="f.email.errors.required">{{'Customers.Error.EmailIsRequired'| translate}} </div>
+                            <div *ngIf="f.email.errors">{{'Customers.Error.EmailMustBeAValidEmailAddress'| translate}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ap-body-col">
+                    <div class="form-group">
+                        <label>Email pré-impressão<sup>*</sup></label>
+                        <input type="text" class="form-control"
+                            [ngClass]="{ 'is-invalid': submitted && f.email_pre_impres.errors }"
+                            formControlName="email_pre_impres" [(ngModel)]="email_pre_impres"
+                            placeholder="Email pré-impressão">
+                        <div *ngIf="submitted && f.email_pre_impres.errors" class="invalid-feedback">
+                            <div *ngIf="f.email_pre_impres.errors.required">
+                                Campo Requerido </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ap-body-col">
+                    <div class="form-group">
+                        <label>Email financeiro<sup>*</sup></label>
+                        <input type="text" class="form-control"
+                            [ngClass]="{ 'is-invalid': submitted && f.email_financeiro.errors }"
+                            formControlName="email_financeiro" [(ngModel)]="email_financeiro"
+                            placeholder="Email financeiro">
+                        <div *ngIf="submitted && f.email_financeiro.errors" class="invalid-feedback">
+                            <div *ngIf="f.email_financeiro.errors.required">
+                                Campo Requerido </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <!--General-->
+
+        <div class="card ap-general ap-info">
+            <div class="ap-header">
+                <span> 2 </span>Mais Informações
+            </div>
+            <div class="flex ap-body">
+                <ngb-tabset style="width:100%;">
+                    <ngb-tab>
+                        <ng-template ngbTabTitle>Geral</ng-template>
+                        <ng-template ngbTabContent>
+                            <div class="flex data-row">
+                                <div class="data-col">
+                                    <div class="form-group">
+                                        <label>Password<sup>*</sup></label>
+                                        <input type="password" class="form-control"
+                                            [ngClass]="{ 'is-invalid': submitted && f.password.errors }"
+                                            formControlName="password"
+                                            placeholder="Password">
+                                        <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                                            <div *ngIf="f.password.errors.required">
+                                                Campo Requerido </div>
+                                        </div>
+
+                                    </div>
+                                    <!---->
+
+                                </div>
+                                <!--Col-->
+                                <div class="data-col">
+                                    <div class="form-group">
+                                        <label>Confirmar Password<sup>*</sup></label>
+                                        <input type="password" class="form-control"
+                                            [ngClass]="{ 'is-invalid': submitted && f.confirmpassword.errors }"
+                                            formControlName="confirmpassword"
+                                            placeholder="Confirmar password">
+                                        <div *ngIf="submitted && f.confirmpassword.errors" class="invalid-feedback">
+                                            <!--<div *ngIf="f.confirmpassword.errors.required">confirmpassword is required</div>-->
+                                            <div *ngIf="f.confirmpassword.errors.mismatchedPasswords">
+                                                {{'Customers.Error.ConfirmpasswordIsMismatch'| translate}} </div>
+                                        </div>
+
+                                    </div>
+                                    <!---->
+                                </div>
+                                <!--Col-->
+                                <div class="data-col">
+                                    <div class="form-group">
+                                        <label>Notícias</label>
+                                        <select class="custom-select col-12" [(ngModel)]="newsletter"
+                                            formControlName="newsletter">
+                                            <option [ngValue]="undefined" selected>- -Selecione- -</option>
+                                            <option value="1">Ativo</option>
+                                            <option value="0">Inativo</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <!--Col-->
+                                <div class="data-col">
+                                    <div class="form-group">
+                                        <label>{{'Customers.Customer.Status'| translate}}<sup>*</sup></label>
+                                        <select class="custom-select col-12" [(ngModel)]="status"
+                                            [ngClass]="{ 'is-invalid': submitted && f.status.errors }"
+                                            formControlName="status">
+                                            <option value="" selected>- -Selecione- -</option>
+                                            <option value=1>Ativo</option>
+                                            <option value=0>Não Ativo</option>
+                                        </select>
+                                        <div *ngIf="submitted && f.status.errors" class="invalid-feedback">
+                                            <div *ngIf="f.status.errors.required">
+                                                Campo Requerido</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!--Col-->
+                                <div class="data-col">
+                                    <div class="form-group" style="margin-left: 11px">
+                                        <label>Receber Emails<sup>*</sup></label>
+                                        <mat-checkbox [ngClass]="{ 'is-invalid': submitted && f.mailStatus.errors}"
+                                            [(ngModel)]='myValue' formControlName="mailStatus">
+                                        </mat-checkbox>
+                                        <div *ngIf="submitted && f.mailStatus.errors" class="invalid-feedback">
+                                            <div *ngIf="f.mailStatus.errors.required">
+                                                Campo Requerido</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <!--Col-->
+                            </div>
+
+                        </ng-template>
+                    </ngb-tab>
+
+                    <ngb-tab>
+                        <ng-template ngbTabTitle>Endereço</ng-template>
+                        <ng-template ngbTabContent>
+                            <div class="flex data-row">
+                                <div class="data-col">
+                                    <div class="form-group">
+                                        <label>Rua/Avenida<sup>*</sup></label>
+                                        <input type="text" class="form-control"
+                                            [ngClass]="{ 'is-invalid': submitted && f.address.errors }"
+                                            formControlName="address" [(ngModel)]="address" placeholder="Endereço">
+                                        <div *ngIf="submitted && f.address.errors" class="invalid-feedback">
+                                            <div *ngIf="f.address.errors.required">
+                                                Campo Requerido </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="data-col">
+                                    <div class="form-group">
+                                        <label>Número<sup>*</sup></label>
+                                        <input type="text" class="form-control"
+                                            [ngClass]="{ 'is-invalid': submitted && f.address_numero.errors }"
+                                            formControlName="address_numero" [(ngModel)]="address_numero"
+                                            placeholder="Número">
+                                        <div *ngIf="submitted && f.address_numero.errors" class="invalid-feedback">
+                                            <div *ngIf="f.address_numero.errors.required">
+                                                Campo Requerido </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="data-col">
+                                    <div class="form-group">
+                                        <label>Complemento<sup>*</sup></label>
+                                        <input type="text" class="form-control"
+                                            [ngClass]="{ 'is-invalid': submitted && f.address_complem.errors }"
+                                            formControlName="address_complem" [(ngModel)]="address_complem"
+                                            placeholder="Complemento">
+                                        <div *ngIf="submitted && f.address_complem.errors" class="invalid-feedback">
+                                            <div *ngIf="f.address_complem.errors.required">
+                                                Campo Requerido </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="data-col">
+                                    <div class="form-group">
+                                        <label>CEP<sup>*</sup></label>
+                                        <input type="text" class="form-control"
+                                            [ngClass]="{ 'is-invalid': submitted && f.pincode.errors }"
+                                            formControlName="pincode" [(ngModel)]="pincode"
+                                            placeholder="Cep">
+                                        <div *ngIf="submitted && f.pincode.errors" class="invalid-feedback">
+                                            <div *ngIf="f.pincode.errors.required">
+                                                Campo Requerido </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="data-col">
+                                    <div class="form-group">
+                                        <label>Bairro<sup>*</sup></label>
+                                        <input type="text" class="form-control"
+                                            [ngClass]="{ 'is-invalid': submitted && f.bairro.errors }"
+                                            formControlName="bairro" [(ngModel)]="bairro"
+                                            placeholder="Bairro">
+                                        <div *ngIf="submitted && f.bairro.errors" class="invalid-feedback">
+                                            <div *ngIf="f.bairro.errors.required">
+                                                Campo Requerido </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="data-col">
+                                    <div class="form-group">
+                                        <label>Cidade<sup>*</sup></label>
+                                        <input type="text" class="form-control"
+                                            [ngClass]="{ 'is-invalid': submitted && f.city.errors }"
+                                            formControlName="city" [(ngModel)]="city"
+                                            placeholder="Cidade">
+                                        <div *ngIf="submitted && f.city.errors" class="invalid-feedback">
+                                            <div *ngIf="f.city.errors.required">
+                                                Campo Requerido </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- <div class="data-col">
+                                    <div class="form-group">
+                                        <label>Estado<sup>*</sup></label>
+                                        <select class="custom-select col-12" [(ngModel)]="zoneId"
+                                            [ngClass]="{ 'is-invalid': submitted && f.zoneId.errors }"
+                                            formControlName="zoneId">
+                                            <option *ngFor="let list of (listsSandbox.zoneList$ | async)"
+                                                [value]="list['zoneId']">
+                                                {{list.name}}
+                                            </option>
+                                        </select>
+                                        <div *ngIf="submitted && f.address_complem.errors" class="invalid-feedback">
+                                            <div *ngIf="f.address_complem.errors.required">
+                                                Campo Requerido </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="data-col">
+                                    <div class="form-group">
+                                        <label>País<sup>*</sup></label>
+                                        <select placeholder="País" formControlName="country" required>
+                                            <option *ngFor="let list of listsSandbox.countryList$ | async"
+                                                [value]=list.countryId>
+                                                {{list.name}}
+                                            <option>
+                                        </select>
+                                        <div *ngIf="submitted && f.contry.errors" class="invalid-feedback">
+                                            <div *ngIf="f.contry.errors.required">
+                                                Campo Requerido </div>
+                                        </div>
+                                    </div>
+                                </div> -->
+
+                               
+
+
+
+                            </div>
+
+
+                        </ng-template>
+                    </ngb-tab>
+
+                </ngb-tabset>
+            </div>
+        </div>
+
+    </div>
+</form>

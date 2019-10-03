@@ -1,0 +1,281 @@
+<div fxLayout="row wrap">
+    <div fxFlex="100" fxFlex.gt-sm="100" class="p-2">
+        <h2 class="text-muted text-center">{{'account.AccountDetails'|translate}}</h2>
+        <div class="editImage">
+
+            <img class="img" *ngIf="!ifImageAvailable" (click)="uploadButtonClick()"
+                src="./assets/images/others/user.jpg">
+            <img class="img" *ngIf="ifImageAvailable" (click)="uploadButtonClick()" [src]="imageUrl">
+
+
+            <input type="file" name="userImg" (change)="uploadChange($event)" accept="image/*" #filePath
+                style="display: none">
+            <span class="editProfile" *ngIf="(ifImageAvailable)" (click)="uploadButtonClick()">Trocar</span>
+        </div>
+        <form [formGroup]="infoForm">
+
+            <!-- <mat-form-field class="w-100 mt-1" 
+               [ngClass]="{'validationcolor':((infoForm.controls.lastName.errors?.required)&&(ifSubmitted==true))}">
+                <input matInput placeholder="{{'account.LastName'|translate}}" formControlName="lastName" required>
+                <mat-error *ngIf="((infoForm['controls'].lastName.errors?.required)&&(ifSubmitted==true))">
+                    {{'Error.LastNameIsRequired'|translate}}
+                </mat-error>
+                <mat-error *ngIf="((infoForm['controls'].lastName.hasError('minlength'))&&(ifSubmitted==true))">
+                    {{'Error.LastNameLong'|translate}}
+                </mat-error>
+            </mat-form-field> -->
+
+            <mat-form-field class="w-100 mt-1"
+                [ngClass]="{'validationcolor':((infoForm.controls.tipo_cadastro.errors?.required)&&(ifSubmitted==true))}">
+                <mat-select placeholder="Tipo de Cadastro" formControlName="tipo_cadastro" required [(value)]="selected"
+                    (selectionChange)="onTipoCadastroChange()">
+                    <mat-option value="Pessoa Fisica">Pessoa Fisica</mat-option>
+                    <mat-option value="Pessoa Juridica">Pessoa Juridica</mat-option>
+                </mat-select>
+                <mat-error *ngIf="((infoForm.controls['tipo_cadastro'].errors?.required)&&(ifSubmitted==true))">
+                    Tipo de cadastro é requerido
+                </mat-error>
+
+            </mat-form-field>
+
+            <mat-form-field class="w-100"
+                [ngClass]="{'validationcolor':((infoForm.controls.firstName.errors?.required)&&(ifSubmitted==true))}">
+                <input matInput placeholder="{{'account.FirstName'|translate}}" formControlName="firstName" required>
+                <mat-error *ngIf="((infoForm['controls'].firstName.errors?.required)&&(ifSubmitted==true))">
+                    {{'Error.FirstNameIsRequired'|translate}}
+                </mat-error>
+                <mat-error *ngIf="((infoForm['controls'].firstName.hasError('minlength'))&&(ifSubmitted==true))">
+                    {{'Error.FirstNameLong'|translate}}
+                </mat-error>
+            </mat-form-field>
+
+            <div class="w-100">
+                <div fxLayout="row">
+                    <mat-form-field fxFlex="48%"
+                        [ngClass]="{'validationcolor':((infoForm.controls.cnpj_cpf.errors?.required)&&(ifSubmitted==true))}">
+                        <input matInput [placeholder]="selected === 'Pessoa Fisica' ? 'CPF' : 'CNPJ'"
+                            formControlName="cnpj_cpf" required
+                            [textMask]="selected === 'Pessoa Fisica' ? {mask: maskCPF} : {mask: maskCNPJ}">
+                        <mat-error *ngIf="((infoForm.controls['cnpj_cpf'].errors?.required)&&(ifSubmitted==true))">
+                            Campo requerido</mat-error>
+                    </mat-form-field>
+
+                    <div fxFlex="4%">
+                    </div>
+
+                    <mat-form-field fxFlex="48%"
+                        [ngClass]="{'validationcolor':((infoForm.controls.inscr_estad_rg.errors?.required)&&(ifSubmitted==true))}">
+                        <input class="w-100" matInput
+                            [placeholder]="selected === 'Pessoa Fisica' ? 'RG' : 'Inscrição Estadual'"
+                            formControlName="inscr_estad_rg" required appOnlyNumber maxlength=15>
+                        <mat-error
+                            *ngIf="((infoForm.controls['inscr_estad_rg'].errors?.required)&&(ifSubmitted==true))">
+                            Campo requerido</mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <mat-form-field class="w-100"
+                [ngClass]="{'validationcolor':((infoForm.controls.address.errors?.required)&&(ifSubmitted==true))}">
+                <input matInput placeholder="{{'account.Address'|translate}}" formControlName="address" required>
+                <mat-error *ngIf="((infoForm['controls'].address.errors?.required)&&(ifSubmitted==true))">
+                    {{'Error.AddressIsRequired'|translate}}
+                </mat-error>
+            </mat-form-field>
+
+            <div class="w-100">
+                <div fxLayout="row">
+                    <mat-form-field fxFlex="48%"
+                        [ngClass]="{'validationcolor':((infoForm.controls.address_numero.errors?.required)&&(ifSubmitted==true))}">
+                        <input matInput placeholder="Número" formControlName="address_numero" required>
+                        <mat-error
+                            *ngIf="((infoForm.controls['address_numero'].errors?.required)&&(ifSubmitted==true))">
+                            Campo requerido</mat-error>
+                    </mat-form-field>
+
+                    <div fxFlex="4%">
+                    </div>
+
+                    <mat-form-field fxFlex="48%">
+                        <input matInput placeholder="Complemento" formControlName="complemento">
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="w-100">
+                <div fxLayout="row">
+                    <mat-form-field fxFlex="48%"
+                        [ngClass]="{'validationcolor':((infoForm.controls.pincode.errors?.required)&&(ifSubmitted==true))}">
+                        <input matInput placeholder="Cep" formControlName="pincode" required>
+                        <mat-error *ngIf="((infoForm.controls['pincode'].errors?.required)&&(ifSubmitted==true))">
+                            Campo requerido</mat-error>
+                    </mat-form-field>
+
+                    <div fxFlex="4%">
+                    </div>
+
+                    <mat-form-field fxFlex="48%"
+                        [ngClass]="{'validationcolor':((infoForm.controls.bairro.errors?.required)&&(ifSubmitted==true))}">
+                        <input matInput placeholder="Bairro" formControlName="bairro" required>
+                        <mat-error *ngIf="((infoForm.controls['bairro'].errors?.required)&&(ifSubmitted==true))">
+                            Campo requerido</mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="w-100">
+                <div fxLayout="row">
+                    <mat-form-field fxFlex="48%"
+                        [ngClass]="{'validationcolor':((infoForm.controls.city.errors?.required)&&(ifSubmitted==true))}">
+                        <input matInput placeholder="Cidade" formControlName="city" required>
+                        <mat-error *ngIf="((infoForm.controls['city'].errors?.required)&&(ifSubmitted==true))">
+                            Campo requerido</mat-error>
+                    </mat-form-field>
+
+                    <div fxFlex="4%">
+                    </div>
+
+                    <mat-form-field fxFlex="22%"
+                        [ngClass]="{'validationcolor':((infoForm.controls.zoneId.errors?.required)&&(ifSubmitted==true))}">
+                        <mat-select placeholder="Estado" formControlName="zoneId" required>
+                            <mat-option *ngFor="let list of (listsSandbox.zoneList$ | async)" [value]="list['zoneId']">
+                                {{list.name}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="((infoForm.controls['zoneId'].errors?.required)&&(ifSubmitted==true))">
+                            {{'Error.StateIsRequired'|translate}}
+                        </mat-error>
+
+                    </mat-form-field>
+
+                    <div fxFlex="4%">
+                    </div>
+
+                    <mat-form-field fxFlex="22%"
+                        [ngClass]="{'validationcolor':((infoForm.controls.country.errors?.required)&&(ifSubmitted==true))}">
+                        <mat-select placeholder="País" formControlName="country" required>
+                            <mat-option *ngFor="let list of listsSandbox.countryList$ | async" [value]=list.countryId>
+                                {{list.name}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="((infoForm.controls['country'].errors?.required)&&(ifSubmitted==true))">
+                            {{'Error.CountryIsRequired'|translate}}
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="w-100">
+                <div fxLayout="row">
+                    <mat-form-field fxFlex="48%"
+                        [ngClass]="{'validationcolor':((infoForm.controls.phoneNumber.errors?.required)&&(ifSubmitted==true))}">
+                        <input matInput type="text" placeholder="Fone (xx) xxxx-xxxx" formControlName="phoneNumber"
+                            required [textMask]="{mask: maskFone}">
+                        <mat-error *ngIf="((infoForm.controls['phoneNumber'].errors?.required)&&(ifSubmitted==true))">
+                            Campo requerido</mat-error>
+                    </mat-form-field>
+
+                    <div fxFlex="4%">
+                    </div>
+
+                    <mat-form-field fxFlex="48%"
+                        [ngClass]="{'validationcolor':((infoForm.controls.mobile.errors?.required)&&(ifSubmitted==true))}">
+                        <input matInput placeholder="Celular (xx) xxxxx-xxxx" formControlName="mobile" required
+                            [textMask]="{mask: maskFoneCel}">
+                        <mat-error *ngIf="((infoForm.controls['mobile'].errors?.required)&&(ifSubmitted==true))">
+                            Campo requerido</mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="w-100">
+                <div fxLayout="row">
+                    <mat-form-field fxFlex="48%"
+                        [ngClass]="{'validationcolor':((infoForm.controls.contato_resp.errors?.required)&&(ifSubmitted==true))}">
+                        <input matInput placeholder="Contato" formControlName="contato_resp" required>
+                        <mat-error *ngIf="((infoForm.controls['contato_resp'].errors?.required)&&(ifSubmitted==true))">
+                            Campo requerido</mat-error>
+                    </mat-form-field>
+
+                    <div fxFlex="4%">
+                    </div>
+
+                    <mat-form-field fxFlex="48%">
+                        <input matInput placeholder="Web Site" formControlName="website">
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <mat-form-field class="w-100 mt-1"
+                [ngClass]="{'validationcolor':((infoForm.controls.email.errors?.required)&&(ifSubmitted==true))}">
+                <input matInput placeholder="Email Principal (Login)" formControlName="email" required readonly>
+                <mat-error *ngIf="((infoForm['controls'].email.errors?.required)&&(ifSubmitted==true))">
+                    {{'Error.EmailIsRequired'|translate}}
+                </mat-error>
+                <mat-error *ngIf="((infoForm['controls'].email.hasError('invalidEmail'))&&(ifSubmitted==true))">
+                    {{'Error.InvalidEmailAddress'|translate}}
+                </mat-error>
+            </mat-form-field>
+
+            <div class="w-100">
+                <div fxLayout="row">
+                    <mat-form-field fxFlex="48%"
+                        [ngClass]="{'validationcolor':((infoForm.controls.email_pre_impres.errors?.required)&&(ifSubmitted==true))}">
+                        <input matInput placeholder="Email pré-impressão" formControlName="email_pre_impres" required>
+                        <mat-error
+                            *ngIf="((infoForm.controls['email_pre_impres'].errors?.required)&&(ifSubmitted==true))">
+                            Campo requerido</mat-error>
+                    </mat-form-field>
+
+                    <div fxFlex="4%">
+                    </div>
+
+                    <mat-form-field fxFlex="48%"
+                        [ngClass]="{'validationcolor':((infoForm.controls.email_financeiro.errors?.required)&&(ifSubmitted==true))}">
+                        <input matInput placeholder="Email financeiro" formControlName="email_financeiro" required>
+                        <mat-error
+                            *ngIf="((infoForm.controls['email_financeiro'].errors?.required)&&(ifSubmitted==true))">
+                            Campo requerido</mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="text-center mt-2">
+                <button style="width: 100%" mat-raised-button color="primary" (click)="onInfoFormSubmit()">{{'account.Save'|translate}}
+                </button>
+            </div>
+
+
+        </form>
+    </div>
+
+    <div fxFlex="100" fxFlex.gt-sm="100" class="p-2" ngClass.sm="mt-2" ngClass.xs="mt-2">
+        <h2 class="text-muted text-center">{{'account.PasswordChange'|translate}}</h2>
+        <form [formGroup]="passwordForm" (ngSubmit)="onPasswordFormSubmit()">
+            <mat-form-field class="w-100 mt-2" [ngClass]="{'validationcolor':
+            ((passwordForm.controls.currentPassword.errors?.required)&&(ifPasswordForm==true))}">
+                <input matInput placeholder="{{'account.CurrentPassword'|translate}}" formControlName="currentPassword"
+                    type="password">
+                <mat-error
+                    *ngIf="((passwordForm.controls['currentPassword'].errors?.required)&&(ifPasswordForm==true))">
+                    {{'Error.CurrentPasswordIsRequired'|translate}}
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="w-100 mt-1" [ngClass]="{'validationcolor':
+            ((passwordForm.controls.newPassword.errors?.required)&&(ifPasswordForm==true))}">
+                <input matInput placeholder="{{'account.NewPassword'|translate}}" formControlName="newPassword"
+                    type="password">
+                <mat-error *ngIf="((passwordForm.controls['newPassword'].errors?.required)&&(ifPasswordForm==true))">
+                    {{'Error.NewPasswordIsRequired'|translate}}
+                </mat-error>
+                <mat-error
+                    *ngIf="((passwordForm.controls['newPassword'].hasError('minlength'))&&(ifPasswordForm==true))">
+                    {{'Error.NewPasswordLong'|translate}}
+                </mat-error>
+            </mat-form-field>
+            <div class="text-center mt-2">
+                <button style="width: 100%" mat-raised-button color="primary" type="submit">{{'account.Change'|translate}}</button>
+            </div>
+        </form>
+    </div>
+</div>
