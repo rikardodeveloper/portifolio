@@ -31,7 +31,7 @@
     "@types/compression": "0.0.36",
     "apidoc": "^0.17.7",
     "array-to-tree": "^3.3.0",
-    "aws-sdk": "^2.391.0",
+    "aws-sdk": "^2.814.0",
     "bcrypt": "^3.0.6",
     "chalk": "^2.4.1",
     "class-validator": "^0.8.1",
